@@ -36,7 +36,10 @@ def run_rectangle():
 #        render_frame(x, 550)
 
     for y in range(30,550+1,10):
-         render_frame(750, y)
+        render_frame(750, y)
+
+    for y in range(550,90-1,-10):
+        render_frame(50, y)
 
 
 
