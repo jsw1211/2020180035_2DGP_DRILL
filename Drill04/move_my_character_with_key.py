@@ -83,8 +83,9 @@ while running:
     update_canvas()
     handle_events()
     frame = (frame + 1) % 6
-    x += dir_x * 5
-    y += dir_y * 5
+    if motion != 4:
+        x += dir_x * 5
+        y += dir_y * 5
     delay(0.05)
 
 close_canvas()
