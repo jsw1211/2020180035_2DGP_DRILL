@@ -71,18 +71,32 @@ while running:
     clear_canvas()
     tuk_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
     if motion == 0:
-        character.clip_draw(frame * 118, 390, 110, 160, x, y, 100, 100)
+        if dir_x == 0 and dir_y == 0:
+            character.clip_draw(frame * 86, 550, 90, 160, x, y, 100, 100)
+            frame = (frame + 1) % 2
+            delay(0.1)
+        else:
+            character.clip_draw(frame * 118, 390, 110, 160, x, y, 100, 100)
+            frame = (frame + 1) % 6
     elif motion == 1:
-        character.clip_composite_draw(frame * 118, 390, 110, 160, 0, 'h',x, y, 100, 100)
+        if dir_x == 0 and dir_y == 0:
+            character.clip_composite_draw(frame * 86, 550, 90, 160, 0, 'h', x, y, 100, 100)
+            frame = (frame + 1) % 2
+            delay(0.1)
+        else:
+            character.clip_composite_draw(frame * 118, 390, 110, 160, 0, 'h',x, y, 100, 100)
+            frame = (frame + 1) % 6
     elif motion == 2:
         character.clip_draw(frame * 118, 390, 110, 160, x, y, 100, 100)
+        frame = (frame + 1) % 6
     elif motion == 3:
         character.clip_draw(frame * 118, 390, 110, 160, x, y, 100, 100)
+        frame = (frame + 1) % 6
     elif motion == 4:
         character.clip_draw(580, 50, 250, 100, x, y, 100, 100)
     update_canvas()
     handle_events()
-    frame = (frame + 1) % 6
+    
     if motion != 4:
         x += dir_x * 20
         y += dir_y * 20
