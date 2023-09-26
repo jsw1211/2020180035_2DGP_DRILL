@@ -34,7 +34,10 @@ def handle_events():
                 elif motion == 3:
                     motion = 1
             elif event.key == SDLK_z:
-                motion = 4
+                if motion == 0:
+                    motion = 4
+                elif motion == 1:
+                    motion = 5
             elif event.key == SDLK_ESCAPE:
                 running = False
         elif event.type == SDL_KEYUP:
@@ -57,7 +60,10 @@ def handle_events():
                 elif motion == 3:
                     motion = 1
             elif event.key == SDLK_z:
-                motion = 4
+                if motion == 0:
+                    motion = 4
+                elif motion == 1:
+                    motion = 5
 
 running = True
 x = 1280 // 2
@@ -94,6 +100,8 @@ while running:
         frame = (frame + 1) % 6
     elif motion == 4:
         character.clip_draw(580, 50, 250, 100, x, y, 100, 100)
+    elif motion == 5:
+        character.clip_composite_draw(580, 50, 250, 100, 0, 'h', x, y, 100, 100)
     update_canvas()
     handle_events()
     
