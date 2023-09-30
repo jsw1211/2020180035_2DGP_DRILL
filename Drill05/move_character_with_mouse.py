@@ -39,10 +39,13 @@ def character_move():
     global arrow_x
     global arrow_y
     global frame
+    global c_x
+    global c_y
+    c_x, c_y = x, y
     for i in range(0, 100+1, 1):
         t = i / 100
-        x = (1 - t) * x + t * arrow_x
-        y = (1 - t) * y + t * arrow_y
+        x = (1 - t) * c_x + t * arrow_x
+        y = (1 - t) * c_y + t * arrow_y
         clear_canvas()
         TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
         arrow.draw(arrow_x, arrow_y)
