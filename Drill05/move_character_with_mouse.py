@@ -40,6 +40,7 @@ def character_move():
     global y
     global arrow_x
     global arrow_y
+    global frame
     for i in range(0, 100+1, 1):
         t = i / 100
         x = (1 - t) * x + t * arrow_x
@@ -49,13 +50,13 @@ def character_move():
         arrow.draw(arrow_x, arrow_y)
         character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
         update_canvas()
+        frame = (frame + 1) % 8
         delay(0.01)
 
 while running:
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
     random_arrow()
     character_move()
-    frame = (frame + 1) % 8
 
     handle_events()
 
