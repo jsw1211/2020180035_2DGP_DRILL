@@ -34,14 +34,27 @@ def random_arrow():
     global arrow_y
     arrow_x = random.randint(0, TUK_WIDTH)
     arrow_y = random.randint(0, TUK_HEIGHT)
-    arrow.draw(arrow_x, arrow_y)
+
+def character_move():
+    global x
+    global y
+    global arrow_x
+    global arrow_y
+    for i in range(0, 100+1, 1):
+        t = i / 100
+        x = (1 - t) * x + t * arrow_x
+        y = (1 - t) * x + t * arrow_y
+        clear_canvas()
+        TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
+        arrow.draw(arrow_x, arrow_y)
+        character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+        update_canvas()
+        delay(0.01)
 
 while running:
-    clear_canvas()
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
     random_arrow()
-    character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
-    update_canvas()
+    character_move()
     frame = (frame + 1) % 8
 
     handle_events()
