@@ -20,8 +20,31 @@ def handle_events():
             arrow_x, arrow_y = event.x, TUK_HEIGHT - 1 - event.y
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
+        elif event.type == SDL_MOUSEBUTTONDOWN:
+            arrow.draw(arrow_x, arrow_y)
     pass
 
+def character_move():
+    global arrow_x, arrow_y
+    global c_x, c_y
+    global x, y
+    global frame
+    c_x, c_y = x, y
+    for i in range(0, 100+1, 1):
+        t = i / 100
+        x = (1 - t) * c_x + t * arrow_x
+        y = (1 - t) * c_x + t * arrow_y
+        clear_canvas()
+        TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
+        arrow.draw(arrow_x, arrow_y)
+        if (x < arrow_x):
+            character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+        else:
+            character.clip_composite_draw(frame * 100, 100 * 1, 100, 100, 0, 'h', x, y, 100, 100)
+        
+        update_canvas()
+        frame = (frame + 1) % 8
+        delay(0.01)
 
 
 running = True
@@ -31,12 +54,7 @@ frame = 0
 hide_cursor()
 
 while running:
-    clear_canvas()
-    TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-    character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
-    arrow.draw(arrow_x, arrow_y)
-    update_canvas()
-    frame = (frame + 1) % 8
+    character_move()
 
     handle_events()
 
