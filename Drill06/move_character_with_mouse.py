@@ -13,6 +13,7 @@ def handle_events():
     global x, y
     global arrow_x, arrow_y
     global arrow_cx, arrow_cy
+    global t
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -31,8 +32,8 @@ def character_move():
     global x, y
     global frame
     global arrow_cx, arrow_cy
+    global t
     c_x, c_y = x, y
-    arrow_cx, arrow_cy = arrow_x, arrow_y
     for i in range(0, 100+1, 1):
         t = i / 100
         x = (1 - t) * c_x + t * arrow_cx
@@ -57,10 +58,12 @@ x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
 arrow_x, arrow_y = x, y
 arrow_cx, arrow_cy = arrow_x, arrow_y
 frame = 0
+t = 1
 hide_cursor()
 
 while running:
-    character_move()
+    if (t == 1):
+        character_move()
 
 
 close_canvas()
