@@ -48,13 +48,21 @@ def set_new_target_arrow():
     global sx, sy, hx, hy, t
     global action
     global frame
-    sx, sy = cx, cy
-    #hx, hy = 50, 50
-    hx, hy = points[0] # 끝점
-    t = 0.0
-    action = 1 if sx < hx else 0
-    frame = 0
+    global target_exists
 
+    if points:
+        sx, sy = cx, cy
+        #hx, hy = 50, 50
+        hx, hy = points[0] # 끝점
+        t = 0.0
+        action = 1 if sx < hx else 0
+        frame = 0
+        target_exists = True
+    else:
+        action = 3 if action == 1 else 2 # 이전에 소년이 우측으로 이동중이었으면 소년이 아이들 동작시 우측을 바라보도록
+        frame = 0
+        target_exists = False
+            
 def render_world():
     clear_canvas()
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
@@ -72,13 +80,15 @@ def update_world():
 
     frame = (frame + 1) % 8
 
-    if t <= 1.0:
-        cx = (1-t)*sx + t*hx # cx는 시작 x와 끝x를 1-t:t의 비율로 섞은 위치
-        cy = (1-t)*sy + t*hy
-        t += 0.001
-    else:
-        cx, cy = hx, hy # 캐릭터 위치를 목적지 위치와 강제로 정확히 일치 시킨다.
-        set_new_target_arrow()
+    if target_exists:
+        if t <= 1.0:
+            cx = (1-t)*sx + t*hx # cx는 시작 x와 끝x를 1-t:t의 비율로 섞은 위치
+            cy = (1-t)*sy + t*hy
+            t += 0.001
+        else: # 목표 지점에 도달하면
+            cx, cy = hx, hy # 캐릭터 위치를 목적지 위치와 강제로 정확히 일치 시킨다.
+            del points[0] #목표지점에 왔기 때문에, 더 이상 필요없는 점을 삭제
+            set_new_target_arrow()
 
     
 open_canvas(TUK_WIDTH, TUK_HEIGHT)
