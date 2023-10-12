@@ -25,10 +25,11 @@ def time_out(e):
 class AutoRun:
     @staticmethod
     def enter(boy, e):
-        if right_down(e) or left_up(e):
-            boy.dir, boy.action = 1, 1
-        elif left_down(e) or right_up(e):
-            boy.dir, boy.action = -1, 0
+        if boy.dir == 1:
+            boy.action = 1
+        elif boy.dir == -1:
+            boy.action = 0
+        boy.start_time = get_time()  # 경과시간
 
     @staticmethod
     def exit(boy, e):
@@ -38,6 +39,8 @@ class AutoRun:
     def do(boy):
         boy.frame = (boy.frame + 1) % 8
         boy.x += boy.dir * 10
+        if get_time() - boy.start_time > 5:
+            boy.state_machine.handle_event(('TIME_OUT', 0))
         pass
 
     @staticmethod
@@ -100,7 +103,7 @@ class Idle:
             boy.action = 2
         elif boy.action == 1:
             boy.action = 3
-        boy.dir = 0
+        boy.dir = 1
         boy.frame = 0
         boy.start_time = get_time()  # 경과시간
         print('Idle Enter')
@@ -112,7 +115,7 @@ class Idle:
     @staticmethod
     def do(boy):
         boy.frame = (boy.frame + 1) % 8
-        if get_time() - boy.start_time > 3 :
+        if get_time() - boy.start_time > 3:
             boy.state_machine.handle_event(('TIME_OUT', 0))
         print('Idle Do')
 
@@ -129,7 +132,7 @@ class StateMachine:
         self.table = {
             Idle: {right_down: Run, left_down: Run, left_up: Run, right_up: Run, time_out: Sleep, a_down: AutoRun},
             Run: {right_down: Idle, left_down: Idle, right_up: Idle, left_up: Idle, a_down: AutoRun},
-            Sleep: {right_down: Run, left_down: Run, right_up: Run, left_up: Run, space_down: Idle, a_down: AutoRun},
+            Sleep: {right_down: Run, left_down: Run, right_up: Run, left_up: Run, space_down: Idle},
             AutoRun: {right_down: Run, left_down: Run, time_out: Idle}
         }
 
