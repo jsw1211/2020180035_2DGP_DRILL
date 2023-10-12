@@ -43,13 +43,18 @@ class AutoRun:
             boy.state_machine.handle_event(('TIME_OUT', 0))
         if boy.x > 790:
             boy.dir = -1
+            boy.action = 0
         if boy.x < 10:
             boy.dir = 1
+            boy.action = 1
         pass
 
     @staticmethod
     def draw(boy):
-        boy.image.clip_draw(boy.frame * 100, boy.action * 100, 100, 100, boy.x, boy.y + 20, 200, 200)
+        if boy.dir == 1:
+            boy.image.clip_draw(boy.frame * 100, boy.action * 100, 100, 100, boy.x, boy.y + 20, 200, 200)
+        if boy.dir == -1:
+            boy.image.clip_draw(boy.frame * 100, boy.action * 100, 100, 100, boy.x, boy.y + 20, 200, 200)
 
 class Run:
     @staticmethod
@@ -107,7 +112,6 @@ class Idle:
             boy.action = 2
         elif boy.action == 1:
             boy.action = 3
-        boy.dir = 1
         boy.frame = 0
         boy.start_time = get_time()  # 경과시간
         print('Idle Enter')
@@ -164,6 +168,7 @@ class Boy:
     def __init__(self):
         self.x, self.y = 400, 90
         self.frame = 0
+        self.dir = 1
         self.action = 3
         self.image = load_image('animation_sheet.png')
         self.state_machine = StateMachine(self)
