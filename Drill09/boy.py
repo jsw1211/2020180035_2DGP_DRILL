@@ -41,6 +41,10 @@ class AutoRun:
         boy.x += boy.dir * 10
         if get_time() - boy.start_time > 5:
             boy.state_machine.handle_event(('TIME_OUT', 0))
+        if boy.x > 790:
+            boy.dir = -1
+        if boy.x < 10:
+            boy.dir = 1
         pass
 
     @staticmethod
