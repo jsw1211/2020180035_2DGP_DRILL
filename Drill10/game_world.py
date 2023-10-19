@@ -2,7 +2,7 @@
 
 # 게임 월드의 표현
 # 두개의 layer를 갖는 게임월드로 구현
-objects = [[], []]
+objects = [[], [], []]
 
 # 월드에 객체를 넣는 함수
 def add_object(o, depth=0):
