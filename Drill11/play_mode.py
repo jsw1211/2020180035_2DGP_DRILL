@@ -2,6 +2,7 @@ from pico2d import *
 import game_framework
 
 import game_world
+from boy import Boy
 from grass import Grass
 from boy import Boy
 
@@ -37,7 +38,7 @@ def finish():
 
 def update():
     game_world.update()
-    # delay(0.1)
+    # delay(0.5)
 
 
 def draw():
