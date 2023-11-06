@@ -44,7 +44,17 @@ def init():
     # 좀비 5마리 추가
     zombies = [Zombie() for _ in range(5)]
     game_world.add_objects(zombies, 1)
-    
+    # game_world.add_collision_pair('ball:zombies', ball, None)
+    # for zombies in zombies:
+    #     game_world.add_collision_pair('ball:zombies', None, zombies)
+    game_world.add_collision_pair('boy:zombie', boy, None)
+    for zombie in zombies:
+        game_world.add_collision_pair('boy:zombie', None, zombie)
+
+    for zombie in zombies:
+        game_world.add_collision_pair('zombie:ball',zombie, None)
+        for ball in balls:
+            game_world.add_collision_pair('zombie:ball', None, ball)
 
 def finish():
     game_world.clear()
