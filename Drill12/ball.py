@@ -29,3 +29,5 @@ class Ball:
             game_world.remove_object(self)
         if group == 'zombie:ball' and self.velocity !=0:
             game_world.remove_object(self)
+        elif group == 'ball:zombie':
+            game_world.remove_object(self)

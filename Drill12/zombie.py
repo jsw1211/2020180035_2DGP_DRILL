@@ -22,6 +22,7 @@ animation_names = ['Walk']
 
 class Zombie:
     images = None
+    life = 2
 
     def load_images(self):
         if Zombie.images == None:
@@ -49,15 +50,19 @@ class Zombie:
 
     def draw(self):
         if self.dir < 0:
-            Zombie.images['Walk'][int(self.frame)].composite_draw(0, 'h', self.x, self.y, 200, 200)
+            Zombie.images['Walk'][int(self.frame)].composite_draw(0, 'h', self.x, self.y, self.life * 100, self.life * 100)
         else:
-            Zombie.images['Walk'][int(self.frame)].draw(self.x, self.y, 200, 200)
+            Zombie.images['Walk'][int(self.frame)].draw(self.x, self.y, self.life * 100, self.life * 100)
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
-        return self.x - 50, self.y - 100, self.x + 50, self.y + 100
+        return self.x - (self.life * 50), self.y - (self.life * 50), self.x + (self.life * 50), self.y + (self.life * 50)
 
     def handle_collision(self, group, other):
-        if group == 'boy:zombie':
-            game_world.remove_object(self)
+        if group == 'ball:zombie':
+
+            self.life -= 1
+            self.y -= 50
+            if self.life < 1:
+                game_world.remove_object(self)
 
